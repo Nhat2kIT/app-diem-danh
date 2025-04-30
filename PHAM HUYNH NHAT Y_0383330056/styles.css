@@ -1,0 +1,131 @@
+body {
+    background: #0f0f0f;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .box {
+    position: relative;
+    width: 320px;
+    background: #1a1a1a;
+    border-radius: 20px;
+    padding: 8px;
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  /* Viền sáng chạy quanh */
+  .box::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: conic-gradient(
+      from 0deg,
+      #00ffff,
+      #ff0057,
+      #00ffff,
+      #ff0057,
+      #00ffff
+    );
+    border-radius: 25px;
+    z-index: -1;
+    animation: rotate 4s linear infinite;
+    filter: blur(3px);
+  }
+  
+  /* Nền bên trong */
+  .box::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    background: #1a1a1a;
+    border-radius: 18px;
+    z-index: -1;
+  }
+  
+  /* Animation xoay */
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .login-header {
+    text-align: center;
+    padding: 20px;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  
+  .login-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+  }
+  
+  .box:hover .login-content {
+    max-height: 400px;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px 20px 20px;
+  }
+  
+  .input-field {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 25px;
+    border: 2px solid #444;
+    background: transparent;
+    color: #fff;
+    outline: none;
+    transition: 0.3s;
+  }
+  
+  .input-field:focus {
+    border-color: #00ffff;
+  }
+  
+  .login-button {
+    padding: 10px;
+    background: #00ffff;
+    border: none;
+    border-radius: 25px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .form-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.85em;
+  }
+  
+  .forgot-password {
+    color: #aaa;
+    text-decoration: none;
+  }
+  
+  .sign-up {
+    color: #ff0057;
+    text-decoration: none;
+  }
+  

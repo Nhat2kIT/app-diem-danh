@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Giao Diện Điểm Danh Sinh Viên</title>
+  <link rel="stylesheet" href="qrcode.css" />
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+</head>
+<body>
+  <h2>GIAO DIỆN ĐIỂM DANH – SINH VIÊN</h2>
+  <h3>MÀN HÌNH ĐIỂM DANH</h3>
+
+  <div id="reader"></div>
+
+  <h3>LỊCH SỬ QUÉT</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>MSSV</th>
+        <th>THỜI GIAN</th>
+      </tr>
+    </thead>
+    <tbody id="result-table">
+    </tbody>
+  </table>
+
+  <script>
+    const MAX_HISTORY = 5;
+
+    function onScanSuccess(decodedText, decodedResult) {
+      const tableBody = document.getElementById("result-table");
+
+      // Tạo dòng mới
+      const newRow = document.createElement("tr");
+
+      const mssvCell = document.createElement("td");
+      mssvCell.textContent = decodedText;
+
+      const timeCell = document.createElement("td");
+      const currentTime = new Date().toLocaleString("vi-VN");
+      timeCell.textContent = currentTime;
+
+      newRow.appendChild(mssvCell);
+      newRow.appendChild(timeCell);
+
+      // Chèn dòng mới vào đầu bảng
+      tableBody.prepend(newRow);
+
+      // Nếu quá 5 dòng, xoá dòng cuối
+      if (tableBody.rows.length > MAX_HISTORY) {
+        tableBody.deleteRow(-1);
+      }
+
+      // Dừng và khởi động lại để tránh quét liên tục
+      html5QrcodeScanner.clear().then(() => {
+        setTimeout(() => {
+          html5QrcodeScanner.render(onScanSuccess);
+        }, 1000);
+      });
+    }
+
+    const config = {
+      fps: 5, // Giảm fps giúp nhận dạng chính xác hơn
+      qrbox: { width: 300, height: 300 }, // khung lớn hơn
+      aspectRatio: 1.333, // Tỉ lệ phổ biến (4:3)
+      supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
+      formatsToSupport: [
+        Html5QrcodeSupportedFormats.QR_CODE,
+        Html5QrcodeSupportedFormats.CODE_128,
+        Html5QrcodeSupportedFormats.CODE_39,
+        Html5QrcodeSupportedFormats.EAN_13,
+        Html5QrcodeSupportedFormats.EAN_8,
+        Html5QrcodeSupportedFormats.UPC_A,
+        Html5QrcodeSupportedFormats.UPC_E,
+        Html5QrcodeSupportedFormats.ITF
+      ]
+    };
+
+    const html5QrcodeScanner = new Html5QrcodeScanner("reader", {
+      ...config,
+      facingMode: "environment" // Ưu tiên camera sau
+    }, false);
+
+    html5QrcodeScanner.render(onScanSuccess);
+  </script>
+</body>
+</html>
